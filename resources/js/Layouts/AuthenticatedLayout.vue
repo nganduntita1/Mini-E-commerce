@@ -22,9 +22,11 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
+                                <Link :href="route('products')">
+                                    <img 
+                                        src="https://static.vecteezy.com/system/resources/previews/011/598/887/original/ecommerce-logo-icon-free-vector.jpg" 
+                                        alt="Logo"
+                                        class="block h-9 w-auto"
                                     />
                                 </Link>
                             </div>
@@ -34,10 +36,16 @@ const showingNavigationDropdown = ref(false);
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
                                 <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
+                                    :href="route('products')"
+                                    :active="route().current('products')"
                                 >
-                                    Dashboard
+                                    Products
+                                </NavLink>
+                                <NavLink
+                                    :href="route('cart')"
+                                    :active="route().current('cart')"
+                                >
+                                    Cart
                                 </NavLink>
                             </div>
                         </div>
