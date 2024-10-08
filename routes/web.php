@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -14,24 +16,30 @@ Route::get('/', function () {
     ]);
 });
 
-// This is a group of routes that will use auth and verified, only authenticated users can access them
+// This is a group of routes that will use auth and verified, only authenticated users can access these.
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/products', function () {
-        return Inertia::render('ProductList');
-    })->name('products');
+    // Products route (fetches product data via ProductController)
+    Route::get('/products', [ProductController::class, 'index'])->name('products');
 
-    Route::get('/cart', function () {
-        return Inertia::render('CartPage');
-    })->name('cart');
+    
+    // API routes for cart actions
+        Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+        Route::get('/cart', [CartController::class, 'view'])->name('cart');
+        Route::delete('/cart/remove/{cartItemId}', [CartController::class, 'remove'])->name('cart.remove');
+        Route::put('/cart/update/{cartItemId}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
+    
+    
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 
 
